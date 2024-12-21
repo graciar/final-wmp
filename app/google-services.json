@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "493793660049",
+    "firebase_url": "https://finale-ca210-default-rtdb.firebaseio.com",
+    "project_id": "finale-ca210",
+    "storage_bucket": "finale-ca210.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493793660049:android:b2a0ea98d6cea523610330",
+        "android_client_info": {
+          "package_name": "com.example.afinal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADmKLSy4PAUI20uLd6CSBs0dPo__TxQ9Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

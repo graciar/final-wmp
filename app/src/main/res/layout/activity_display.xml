@@ -20,4 +20,13 @@
         android:divider="@android:color/darker_gray"
         android:dividerHeight="1dp" />
 
+    <TextView
+        android:id="@+id/totalCreditsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total Credits: 0"
+        android:textSize="18sp"
+        android:layout_marginTop="16dp" />
+
+
 </LinearLayout>

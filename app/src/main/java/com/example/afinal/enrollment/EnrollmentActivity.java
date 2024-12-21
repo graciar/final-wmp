@@ -23,7 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EnrollmentActivity extends AppCompatActivity {
 
@@ -55,7 +57,6 @@ public class EnrollmentActivity extends AppCompatActivity {
         subjects.add(new Subject("CS401", "Machine Learning", 3, "Computer Science"));
         subjects.add(new Subject("CS402", "Artificial Intelligence", 3, "Computer Science"));
 
-
         SubjectAdapter adapter = new SubjectAdapter(this, subjects);
         subjectListView.setAdapter(adapter);
         subjectListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -66,8 +67,9 @@ public class EnrollmentActivity extends AppCompatActivity {
 
             for (int i = 0; i < subjectListView.getCount(); i++) {
                 if (subjectListView.isItemChecked(i)) {
-                    selectedSubjects.add(subjects.get(i).getCode());  // Storing the course code
-                    selectedCredits.add(subjects.get(i).getCredit()); // Storing the credit value
+                    Subject selectedSubject = subjects.get(i);
+                    selectedSubjects.add(selectedSubject.getCode());  // Store code
+                    selectedCredits.add(selectedSubject.getCredit()); // Store credit
                 }
             }
 
@@ -85,7 +87,18 @@ public class EnrollmentActivity extends AppCompatActivity {
                 String userId = sharedPreferences.getString("email", null);
 
                 if (userId != null) {
-                    reference.child(userId).child("subjects").setValue(selectedSubjects)
+                    Map<String, Object> subjectMap = new HashMap<>();
+
+                    for (int i = 0; i < selectedSubjects.size(); i++) {
+                        Map<String, Object> subjectDetails = new HashMap<>();
+                        subjectDetails.put("code", selectedSubjects.get(i));
+                        subjectDetails.put("credit", selectedCredits.get(i));
+
+                        // Store each subject under the userId and its corresponding subject code
+                        subjectMap.put("subject" + (i + 1), subjectDetails);
+                    }
+
+                    reference.child(userId).child("subjects").setValue(subjectMap)
                             .addOnSuccessListener(aVoid -> {
                                 Toast.makeText(EnrollmentActivity.this, "Enrollment Successful!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(EnrollmentActivity.this, displayActivity.class);
@@ -98,12 +111,10 @@ public class EnrollmentActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(EnrollmentActivity.this, "User not logged in. Please log in again.", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }
 
-    //display subject name and credit
     public class SubjectAdapter extends ArrayAdapter<Subject> {
         public SubjectAdapter(EnrollmentActivity context, List<Subject> subjects) {
             super(context, 0, subjects);

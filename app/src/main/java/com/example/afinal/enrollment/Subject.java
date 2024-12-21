@@ -48,4 +48,3 @@ public class Subject {
         this.department = department;
     }
 }
-
